@@ -1,5 +1,7 @@
 import React, { type MouseEvent, startTransition, useState } from 'react';
 import * as Ariakit from '@ariakit/react';
+import { CitySelect } from './components/CitySelect';
+import { City } from './types/city';
 
 const mockCityData = [
   { id: 1, name: 'Berlin' },
@@ -37,12 +39,37 @@ function App() {
     setSelectedItem(item);
   };
 
+  const [selectedCity, setSelectedCity] = useState<City | null>(null);
+
   return (
     <div className="space-y-8">
       <div className="max-w-lg">
         <h2 className="p-2 bg-teal-200 text-xl font-bold">
           Ariakit Select+Combobox
         </h2>
+
+        <div className='p-4 border-green-600 border-2'>
+          <CitySelect
+            cities={mockCityData}
+            value={selectedCity}
+            onChange={setSelectedCity}
+          />
+
+          <pre className="mt-4 bg-teal-100 p-4 rounded">
+            Selected: {JSON.stringify(selectedCity, null, 2)}
+          </pre>
+
+          <div className="mt-4">
+            <Ariakit.Button
+              onClick={() => {
+                setSelectedCity(mockCityData[0]);
+              }}
+            >
+              wähle Berlin
+            </Ariakit.Button>
+          </div>
+        </div>
+
         <Ariakit.ComboboxProvider
           resetValueOnHide
           setValue={(value) => {
